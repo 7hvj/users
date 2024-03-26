@@ -1,8 +1,7 @@
 package com.example.userbackend.service;
 
-import com.example.userbackend.dto.NewRequestDto;
-import com.example.userbackend.dto.RenewRequestDto;
-import com.example.userbackend.dto.RepairRequestDto;
+import com.example.userbackend.dto.*;
+import com.example.userbackend.entity.WithdrawalRequest;
 
 
 import java.util.List;
@@ -31,4 +30,20 @@ public interface RequestServices {
     RepairRequestDto RejectedRepairRequest(Long repairRequestId);
     void deleteRepairRequest(Long repairRequestId);
     List<RepairRequestDto> getAllRepairRequest();
+
+//    withdrawal Request functions:
+    WithdrawalRequestDto addWithdrawalRequest(WithdrawalRequestDto withdrawalRequestDto);
+    WithdrawalRequestDto getWithdrawalRequestById(Long withdrawalId);
+    WithdrawalRequestDto ApprovedWithdrawalRequestById(Long withdrawalId);
+    WithdrawalRequestDto RejectedWithdrawalRequestById(Long withdrawalId);
+    void deleteWithdrawalRequest(Long withdrawalId);
+    List<WithdrawalRequestDto> getAllWithdrawalRequest();
+
+    //    NominateToHousing Request functions:
+    NominateToHousingDto addNominateToHousing(NominateToHousingDto nominateToHousingDto);
+    NominateToHousingDto getNominateToHousingId(Long nominateToHousingId);
+    NominateToHousingDto ApprovedNominateToHousing(Long nominateToHousingId);
+    NominateToHousingDto RejectedNominateToHousing(Long nominateToHousingId);
+    void deleteNominateToHousing(Long nominateToHousingId);
+    List<NominateToHousingDto> getAllNominateToHousing();
 }

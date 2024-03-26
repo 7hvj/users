@@ -1,20 +1,10 @@
 package com.example.userbackend.service.implementaion;
 
-import com.example.userbackend.dto.NewRequestDto;
-import com.example.userbackend.dto.RenewRequestDto;
-import com.example.userbackend.dto.RepairRequestDto;
-import com.example.userbackend.dto.UserDto;
-import com.example.userbackend.entity.NewRequest;
-import com.example.userbackend.entity.RenewRequest;
-import com.example.userbackend.entity.RepairRequest;
+import com.example.userbackend.dto.*;
+import com.example.userbackend.entity.*;
 import com.example.userbackend.exception.NotFoundException;
-import com.example.userbackend.mapper.NewRequestMapper;
-import com.example.userbackend.mapper.RenewRequestMapper;
-import com.example.userbackend.mapper.RepairRequestMapper;
-import com.example.userbackend.mapper.UserMapper;
-import com.example.userbackend.repository.NewRequestRepository;
-import com.example.userbackend.repository.RenewRequestRepository;
-import com.example.userbackend.repository.RepairRequestRepository;
+import com.example.userbackend.mapper.*;
+import com.example.userbackend.repository.*;
 import com.example.userbackend.service.RequestServices;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +18,8 @@ public class RequestServicesImpl implements RequestServices {
     private NewRequestRepository newRequestRepository;
     private RenewRequestRepository renewRequestRepository;
     private RepairRequestRepository repairRequestRepository;
+    private WithdrawalRequestRepository withdrawalRequestRepository;
+    private NominateToHousingRepository nominateToHousingRepository;
 
 //    new request functions:
     @Override
@@ -189,4 +181,108 @@ public class RequestServicesImpl implements RequestServices {
                 .collect(Collectors.toList());
 
     }
+// Withdrawal request functions:
+    @Override
+    public WithdrawalRequestDto addWithdrawalRequest(WithdrawalRequestDto withdrawalRequestDto) {
+        WithdrawalRequest withdrawalRequest= WithdrawalRequestMapper.mapToWithdrawalRequest(withdrawalRequestDto);
+        withdrawalRequest.setRequestType("WITHDRAWAL_REQUEST");
+        withdrawalRequest.setRequestStatus("PENDING");
+        WithdrawalRequest savedRequest=withdrawalRequestRepository.save(withdrawalRequest);
+        return WithdrawalRequestMapper.mapToWithdrawalRequestDto(savedRequest);
+    }
+//get Withdrawal
+    @Override
+    public WithdrawalRequestDto getWithdrawalRequestById(Long withdrawalId) {
+        WithdrawalRequest withdrawalRequest=withdrawalRequestRepository.findById(withdrawalId)
+                .orElseThrow(()->new NotFoundException("Not Found id: "+withdrawalId));
+
+        return WithdrawalRequestMapper.mapToWithdrawalRequestDto(withdrawalRequest);
+    }
+//approve Withdrawal
+    @Override
+    public WithdrawalRequestDto ApprovedWithdrawalRequestById(Long withdrawalId) {
+        WithdrawalRequest withdrawalRequest=withdrawalRequestRepository.findById(withdrawalId)
+                .orElseThrow(()->new NotFoundException("Not Found id: "+withdrawalId));
+        withdrawalRequest.setRequestStatus("APPROVED");
+        WithdrawalRequest savedRequest=withdrawalRequestRepository.save(withdrawalRequest);
+        return WithdrawalRequestMapper.mapToWithdrawalRequestDto(savedRequest);
+    }
+// reject: Withdrawal
+    @Override
+    public WithdrawalRequestDto RejectedWithdrawalRequestById(Long withdrawalId) {
+        WithdrawalRequest withdrawalRequest=withdrawalRequestRepository.findById(withdrawalId)
+                .orElseThrow(()->new NotFoundException("Not Found id: "+withdrawalId));
+        withdrawalRequest.setRequestStatus("REJECTED");
+        WithdrawalRequest savedRequest=withdrawalRequestRepository.save(withdrawalRequest);
+        return WithdrawalRequestMapper.mapToWithdrawalRequestDto(savedRequest);    }
+//delete Withdrawal
+    @Override
+    public void deleteWithdrawalRequest(Long withdrawalId) {
+        WithdrawalRequest withdrawalRequest=withdrawalRequestRepository.findById(withdrawalId)
+                .orElseThrow(()->new NotFoundException("Not Found id: "+withdrawalId));
+        withdrawalRequestRepository.deleteById(withdrawalId);
+    }
+//get all Withdrawal
+    @Override
+    public List<WithdrawalRequestDto> getAllWithdrawalRequest() {
+        List<WithdrawalRequest> withdrawalRequests=withdrawalRequestRepository.findAll();
+
+        return withdrawalRequests.stream()
+                .map(WithdrawalRequestMapper::mapToWithdrawalRequestDto)
+                .collect(Collectors.toList());
+    }
+// nominate function
+//    add nominate request
+    @Override
+    public NominateToHousingDto addNominateToHousing(NominateToHousingDto nominateToHousingDto) {
+        NominateToHousing nominateToHousing= NominateToHousingMapper.mapToNominateToHousing(nominateToHousingDto);
+        nominateToHousing.setRequestType("NOMINATE_REQUEST");
+        nominateToHousing.setRequestStatus("PENDING");
+        NominateToHousing savedRequest=nominateToHousingRepository.save(nominateToHousing);
+        return NominateToHousingMapper.mapToNominateToHousingDto(savedRequest);
+    }
+    //    get nominate request
+    @Override
+    public NominateToHousingDto getNominateToHousingId(Long nominateToHousingId) {
+        NominateToHousing nominateToHousing=nominateToHousingRepository.findById(nominateToHousingId)
+                .orElseThrow(()->new NotFoundException("Not Found id: "+nominateToHousingId));
+
+        return NominateToHousingMapper.mapToNominateToHousingDto(nominateToHousing);
+    }
+    //    approve nominate request
+    @Override
+    public NominateToHousingDto ApprovedNominateToHousing(Long nominateToHousingId) {
+        NominateToHousing nominateToHousing=nominateToHousingRepository.findById(nominateToHousingId)
+                .orElseThrow(()->new NotFoundException("Not Found id: "+nominateToHousingId));
+        nominateToHousing.setRequestStatus("APPROVED");
+        NominateToHousing savedRequest=nominateToHousingRepository.save(nominateToHousing);
+        return NominateToHousingMapper.mapToNominateToHousingDto(savedRequest);
+
+    }
+    //    reject nominate request
+    @Override
+    public NominateToHousingDto RejectedNominateToHousing(Long nominateToHousingId) {
+        NominateToHousing nominateToHousing=nominateToHousingRepository.findById(nominateToHousingId)
+                .orElseThrow(()->new NotFoundException("Not Found id: "+nominateToHousingId));
+        nominateToHousing.setRequestStatus("REJECTED");
+        NominateToHousing savedRequest=nominateToHousingRepository.save(nominateToHousing);
+        return NominateToHousingMapper.mapToNominateToHousingDto(savedRequest);
+    }
+    //    delete nominate request
+    @Override
+    public void deleteNominateToHousing(Long nominateToHousingId) {
+        NominateToHousing nominateToHousing=nominateToHousingRepository.findById(nominateToHousingId)
+                .orElseThrow(()->new NotFoundException("Not Found id: "+nominateToHousingId));
+        nominateToHousingRepository.deleteById(nominateToHousingId);
+    }
+    //    get all nominate request
+    @Override
+    public List<NominateToHousingDto> getAllNominateToHousing() {
+        List<NominateToHousing> nominateToHousings=nominateToHousingRepository.findAll();
+
+        return nominateToHousings.stream()
+                .map(NominateToHousingMapper::mapToNominateToHousingDto)
+                .collect(Collectors.toList());
+    }
+
 }
