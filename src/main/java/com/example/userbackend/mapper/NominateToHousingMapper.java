@@ -14,9 +14,7 @@ public class NominateToHousingMapper {
                 nominateToHousing.getSchoolName(),
                 nominateToHousing.getNeighborhood(),
                 nominateToHousing.getGraduationCity(),
-                nominateToHousing.getPhone(),
-                nominateToHousing.getRequestType(),
-                nominateToHousing.getRequestStatus()
+                nominateToHousing.getPhone()
         );
     }
     public static NominateToHousing mapToNominateToHousing(NominateToHousingDto nominateToHousingDto){
@@ -29,9 +27,7 @@ public class NominateToHousingMapper {
                 nominateToHousingDto.getSchoolName(),
                 nominateToHousingDto.getNeighborhood(),
                 nominateToHousingDto.getGraduationCity(),
-                nominateToHousingDto.getPhone(),
-                null,
-                null
+                nominateToHousingDto.getPhone()
         );
     }
 }

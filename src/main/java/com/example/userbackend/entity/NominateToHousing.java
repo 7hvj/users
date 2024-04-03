@@ -14,7 +14,6 @@ import lombok.Setter;
 @Table(name = "NominateToHousing")
 public class NominateToHousing {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "NominateToHousing_id")
     private Long nominateToHousingId;
 
@@ -26,8 +25,4 @@ public class NominateToHousing {
     private String neighborhood;
     private String graduationCity;
     private String phone;
-    @Column(name = "request_type")
-    private String requestType;
-    @Column(name = "request_status")
-    private String requestStatus;
 }

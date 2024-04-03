@@ -16,7 +16,6 @@ import lombok.Setter;
 @Table(name = "NewRequest")
 public class NewRequest {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "new_request_id")
     private Long newRequestId;
 
@@ -27,9 +26,6 @@ public class NewRequest {
     private String city;
     private String neighborhood;
     private String phone;
-    @Column(name = "request_type")
-    private String requestType;
-    @Column(name = "request_status")
-    private String requestStatus;
+
 
 }

@@ -13,9 +13,7 @@ public class NewRequestMapper {
                 newRequest.getCountry(),
                 newRequest.getCity(),
                 newRequest.getNeighborhood(),
-                newRequest.getPhone(),
-                newRequest.getRequestType(),
-                newRequest.getRequestStatus()
+                newRequest.getPhone()
         );
     }
 
@@ -28,9 +26,7 @@ public class NewRequestMapper {
                 newRequestDto.getCountry(),
                 newRequestDto.getCity(),
                 newRequestDto.getNeighborhood(),
-                newRequestDto.getPhone(),
-                null,
-                null
+                newRequestDto.getPhone()
         );
     }
 }

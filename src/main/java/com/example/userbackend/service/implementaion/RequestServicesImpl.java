@@ -6,10 +6,12 @@ import com.example.userbackend.exception.NotFoundException;
 import com.example.userbackend.mapper.*;
 import com.example.userbackend.repository.*;
 import com.example.userbackend.service.RequestServices;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,13 +22,14 @@ public class RequestServicesImpl implements RequestServices {
     private RepairRequestRepository repairRequestRepository;
     private WithdrawalRequestRepository withdrawalRequestRepository;
     private NominateToHousingRepository nominateToHousingRepository;
+    private requestsRepository requestsRepository;
 
 //    new request functions:
     @Override
     public NewRequestDto addNewRequest(NewRequestDto newRequestDto) {
         NewRequest newRequest= NewRequestMapper.mapToNewRequest(newRequestDto);
-        newRequest.setRequestType("NEW_REQUEST");
-        newRequest.setRequestStatus("PENDING");
+        Requests request=requestsRepository.save(new Requests("NEW_REQUEST","PENDING"));
+        newRequest.setNewRequestId(request.getRequestsId());
         NewRequest savedRequest=newRequestRepository.save(newRequest);
         return NewRequestMapper.mapToNewRequestDto(savedRequest);
     }
@@ -40,27 +43,31 @@ public class RequestServicesImpl implements RequestServices {
 //    update the status of request into approved
     @Override
     public NewRequestDto ApprovedStatus(Long newRequestId) {
-        NewRequest newRequest= newRequestRepository.findById(newRequestId)
+        Requests newRequest=requestsRepository.findById(newRequestId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+newRequestId));
+
         newRequest.setRequestStatus("APPROVED");
-        NewRequest savedRequest=newRequestRepository.save(newRequest);
-        return NewRequestMapper.mapToNewRequestDto(savedRequest);
+        Requests savedRequest=requestsRepository.save(newRequest);
+        return null;
     }
     //    update the status of request into rejected
     @Override
     public NewRequestDto RejectedStatus(Long newRequestId) {
-        NewRequest newRequest= newRequestRepository.findById(newRequestId)
+        Requests newRequest=requestsRepository.findById(newRequestId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+newRequestId));
+
         newRequest.setRequestStatus("REJECTED");
-        NewRequest savedRequest=newRequestRepository.save(newRequest);
-        return NewRequestMapper.mapToNewRequestDto(savedRequest);
+        Requests savedRequest=requestsRepository.save(newRequest);
+        return null;
     }
 //    Delete New Request
     @Override
     public void deleteNewRequest(Long newRequestId) {
-        NewRequest newRequest= newRequestRepository.findById(newRequestId)
+        Requests Request=requestsRepository.findById(newRequestId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+newRequestId));
+
         newRequestRepository.deleteById(newRequestId);
+        requestsRepository.deleteById(newRequestId);
     }
 //    Get all Request
     @Override
@@ -76,12 +83,11 @@ public class RequestServicesImpl implements RequestServices {
     @Override
     public RenewRequestDto addRenewRequest(RenewRequestDto renewRequestDto) {
         RenewRequest renewRequest= RenewRequestMapper.mapToRenewRequest(renewRequestDto);
-        renewRequest.setRequestType("RENEW_REQUEST");
-        renewRequest.setRequestStatus("PENDING");
         renewRequest.setTerm("FIRST_TERM");
         renewRequest.setAcademicYear("2023-2024");
+        Requests request=requestsRepository.save(new Requests("RENEW_REQUEST","PENDING"));
+        renewRequest.setRenewRequestId(request.getRequestsId());
         RenewRequest savedRequest=renewRequestRepository.save(renewRequest);
-
         return RenewRequestMapper.mapToRenewRequestDto(savedRequest);
     }
 // get renew request
@@ -94,27 +100,31 @@ public class RequestServicesImpl implements RequestServices {
 // update renew request to approved
     @Override
     public RenewRequestDto ApprovedRenewRequest(Long renewRequestId) {
-        RenewRequest renewRequest=renewRequestRepository.findById(renewRequestId)
+        Requests renewRequest=requestsRepository.findById(renewRequestId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+renewRequestId));
+
         renewRequest.setRequestStatus("APPROVED");
-        RenewRequest savedRequest=renewRequestRepository.save(renewRequest);
-        return RenewRequestMapper.mapToRenewRequestDto(savedRequest);
+        Requests savedRequest=requestsRepository.save(renewRequest);
+        return null;
     }
     // update renew request to rejected
     @Override
     public RenewRequestDto RejectedRenewRequest(Long renewRequestId) {
-        RenewRequest renewRequest=renewRequestRepository.findById(renewRequestId)
+        Requests renewRequest=requestsRepository.findById(renewRequestId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+renewRequestId));
+
         renewRequest.setRequestStatus("REJECTED");
-        RenewRequest savedRequest=renewRequestRepository.save(renewRequest);
-        return RenewRequestMapper.mapToRenewRequestDto(savedRequest);
+        Requests savedRequest=requestsRepository.save(renewRequest);
+        return null;
     }
     // delete renew request
     @Override
     public void deleteRenewRequest(Long renewRequestId) {
-        RenewRequest renewRequest=renewRequestRepository.findById(renewRequestId)
+        Requests renewRequest=requestsRepository.findById(renewRequestId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+renewRequestId));
+
         renewRequestRepository.deleteById(renewRequestId);
+        requestsRepository.deleteById(renewRequestId);
 
     }
 //    get all renew request
@@ -130,15 +140,17 @@ public class RequestServicesImpl implements RequestServices {
 //    addRenewRequest
     @Override
     public RepairRequestDto addRepairRequest(RepairRequestDto repairRequestDto) {
+
+
         RepairRequest repairRequest= RepairRequestMapper.mapToRepairRequest(repairRequestDto);
-        repairRequest.setRequestType("REPAIR_REQUEST");
-        repairRequest.setRequestStatus("PENDING");
+        Requests repair=requestsRepository.save(new Requests("REPAIR_REQUEST","PENDING"));
+        repairRequest.setRepairRequestId(repair.getRequestsId());
         RepairRequest savedRequest=repairRequestRepository.save(repairRequest);
         return RepairRequestMapper.mapToRepairRequestDto(savedRequest);
 
     }
 //    get repair request by id
-
+//
     @Override
     public RepairRequestDto getRepairRequestById(Long repairRequestId) {
         RepairRequest repairRequest=repairRequestRepository.findById(repairRequestId)
@@ -149,44 +161,43 @@ public class RequestServicesImpl implements RequestServices {
     // update repair request to approved
     @Override
     public RepairRequestDto ApprovedRepairRequest(Long repairRequestId) {
-        RepairRequest repairRequest=repairRequestRepository.findById(repairRequestId)
+        Requests repairRequest=requestsRepository.findById(repairRequestId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+repairRequestId));
+
         repairRequest.setRequestStatus("APPROVED");
-        RepairRequest savedRequest=repairRequestRepository.save(repairRequest);
-        return RepairRequestMapper.mapToRepairRequestDto(savedRequest);
+        Requests savedRequest=requestsRepository.save(repairRequest);
+        return null;
     }
-    // update repair request to rejected
+//    // update repair request to rejected
     @Override
     public RepairRequestDto RejectedRepairRequest(Long repairRequestId) {
-        RepairRequest repairRequest=repairRequestRepository.findById(repairRequestId)
+        Requests repairRequest=requestsRepository.findById(repairRequestId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+repairRequestId));
+
         repairRequest.setRequestStatus("REJECTED");
-        RepairRequest savedRequest=repairRequestRepository.save(repairRequest);
-        return RepairRequestMapper.mapToRepairRequestDto(savedRequest);
+        Requests savedRequest=requestsRepository.save(repairRequest);
+        return null;
     }
     // delete repair request
     @Override
     public void deleteRepairRequest(Long repairRequestId) {
-        RepairRequest repairRequest=repairRequestRepository.findById(repairRequestId)
+        Requests Request=requestsRepository.findById(repairRequestId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+repairRequestId));
+
         repairRequestRepository.deleteById(repairRequestId);
+        requestsRepository.deleteById(repairRequestId);
     }
     // get all repair request
     @Override
-    public List<RepairRequestDto> getAllRepairRequest() {
-        List<RepairRequest> repairRequests=repairRequestRepository.findAll();
-
-        return repairRequests.stream()
-                .map(RepairRequestMapper::mapToRepairRequestDto)
-                .collect(Collectors.toList());
-
+    public List<Map<String, Object >> getAllRepairRequest() {
+        return repairRequestRepository.getRequests();
     }
 // Withdrawal request functions:
     @Override
     public WithdrawalRequestDto addWithdrawalRequest(WithdrawalRequestDto withdrawalRequestDto) {
         WithdrawalRequest withdrawalRequest= WithdrawalRequestMapper.mapToWithdrawalRequest(withdrawalRequestDto);
-        withdrawalRequest.setRequestType("WITHDRAWAL_REQUEST");
-        withdrawalRequest.setRequestStatus("PENDING");
+        Requests withdrawal=requestsRepository.save(new Requests("WITHDRAWAL_REQUEST","PENDING"));
+        withdrawalRequest.setWithdrawalRequestId(withdrawal.getRequestsId());
         WithdrawalRequest savedRequest=withdrawalRequestRepository.save(withdrawalRequest);
         return WithdrawalRequestMapper.mapToWithdrawalRequestDto(savedRequest);
     }
@@ -201,26 +212,31 @@ public class RequestServicesImpl implements RequestServices {
 //approve Withdrawal
     @Override
     public WithdrawalRequestDto ApprovedWithdrawalRequestById(Long withdrawalId) {
-        WithdrawalRequest withdrawalRequest=withdrawalRequestRepository.findById(withdrawalId)
+        Requests withdrawalRequest=requestsRepository.findById(withdrawalId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+withdrawalId));
+
         withdrawalRequest.setRequestStatus("APPROVED");
-        WithdrawalRequest savedRequest=withdrawalRequestRepository.save(withdrawalRequest);
-        return WithdrawalRequestMapper.mapToWithdrawalRequestDto(savedRequest);
+        Requests savedRequest=requestsRepository.save(withdrawalRequest);
+        return null;
     }
-// reject: Withdrawal
+//// reject: Withdrawal
     @Override
     public WithdrawalRequestDto RejectedWithdrawalRequestById(Long withdrawalId) {
-        WithdrawalRequest withdrawalRequest=withdrawalRequestRepository.findById(withdrawalId)
+        Requests withdrawalRequest=requestsRepository.findById(withdrawalId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+withdrawalId));
+
         withdrawalRequest.setRequestStatus("REJECTED");
-        WithdrawalRequest savedRequest=withdrawalRequestRepository.save(withdrawalRequest);
-        return WithdrawalRequestMapper.mapToWithdrawalRequestDto(savedRequest);    }
+        Requests savedRequest=requestsRepository.save(withdrawalRequest);
+        return null;
+    }
 //delete Withdrawal
     @Override
     public void deleteWithdrawalRequest(Long withdrawalId) {
-        WithdrawalRequest withdrawalRequest=withdrawalRequestRepository.findById(withdrawalId)
+        Requests Request=requestsRepository.findById(withdrawalId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+withdrawalId));
+
         withdrawalRequestRepository.deleteById(withdrawalId);
+        requestsRepository.deleteById(withdrawalId);
     }
 //get all Withdrawal
     @Override
@@ -236,8 +252,8 @@ public class RequestServicesImpl implements RequestServices {
     @Override
     public NominateToHousingDto addNominateToHousing(NominateToHousingDto nominateToHousingDto) {
         NominateToHousing nominateToHousing= NominateToHousingMapper.mapToNominateToHousing(nominateToHousingDto);
-        nominateToHousing.setRequestType("NOMINATE_REQUEST");
-        nominateToHousing.setRequestStatus("PENDING");
+        Requests nominate=requestsRepository.save(new Requests("NOMINATE_REQUEST","PENDING"));
+        nominateToHousing.setNominateToHousingId(nominate.getRequestsId());
         NominateToHousing savedRequest=nominateToHousingRepository.save(nominateToHousing);
         return NominateToHousingMapper.mapToNominateToHousingDto(savedRequest);
     }
@@ -252,28 +268,31 @@ public class RequestServicesImpl implements RequestServices {
     //    approve nominate request
     @Override
     public NominateToHousingDto ApprovedNominateToHousing(Long nominateToHousingId) {
-        NominateToHousing nominateToHousing=nominateToHousingRepository.findById(nominateToHousingId)
+        Requests nominateToHousing=requestsRepository.findById(nominateToHousingId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+nominateToHousingId));
+
         nominateToHousing.setRequestStatus("APPROVED");
-        NominateToHousing savedRequest=nominateToHousingRepository.save(nominateToHousing);
-        return NominateToHousingMapper.mapToNominateToHousingDto(savedRequest);
+        Requests savedRequest=requestsRepository.save(nominateToHousing);
+        return null;
 
     }
     //    reject nominate request
     @Override
     public NominateToHousingDto RejectedNominateToHousing(Long nominateToHousingId) {
-        NominateToHousing nominateToHousing=nominateToHousingRepository.findById(nominateToHousingId)
+        Requests nominateToHousing=requestsRepository.findById(nominateToHousingId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+nominateToHousingId));
+
         nominateToHousing.setRequestStatus("REJECTED");
-        NominateToHousing savedRequest=nominateToHousingRepository.save(nominateToHousing);
-        return NominateToHousingMapper.mapToNominateToHousingDto(savedRequest);
+        Requests savedRequest=requestsRepository.save(nominateToHousing);
+        return null;
     }
     //    delete nominate request
     @Override
     public void deleteNominateToHousing(Long nominateToHousingId) {
-        NominateToHousing nominateToHousing=nominateToHousingRepository.findById(nominateToHousingId)
+        Requests nominateToHousing=requestsRepository.findById(nominateToHousingId)
                 .orElseThrow(()->new NotFoundException("Not Found id: "+nominateToHousingId));
         nominateToHousingRepository.deleteById(nominateToHousingId);
+        requestsRepository.deleteById(nominateToHousingId);
     }
     //    get all nominate request
     @Override
@@ -284,5 +303,12 @@ public class RequestServicesImpl implements RequestServices {
                 .map(NominateToHousingMapper::mapToNominateToHousingDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Requests> getAllRequests() {
+        List<Requests> Requests =requestsRepository.findAll();
+        return Requests;
+    }
+
 
 }

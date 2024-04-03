@@ -16,9 +16,7 @@ public class WithdrawalRequestMapper {
                 withdrawalRequest.getPhone(),
                 withdrawalRequest.getWithdrawalReason(),
                 withdrawalRequest.getIban(),
-                withdrawalRequest.getBankName(),
-                withdrawalRequest.getRequestType(),
-                withdrawalRequest.getRequestStatus()
+                withdrawalRequest.getBankName()
         );
     }
     public static WithdrawalRequest mapToWithdrawalRequest(WithdrawalRequestDto withdrawalRequestDto){
@@ -33,9 +31,7 @@ public class WithdrawalRequestMapper {
                 withdrawalRequestDto.getPhone(),
                 withdrawalRequestDto.getWithdrawalReason(),
                 withdrawalRequestDto.getIban(),
-                withdrawalRequestDto.getBankName(),
-                null,
-                null
+                withdrawalRequestDto.getBankName()
         );
     }
 }

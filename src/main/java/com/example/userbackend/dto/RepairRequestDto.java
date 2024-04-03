@@ -18,6 +18,5 @@ public class RepairRequestDto {
     private String room;
     private String repair;
     private String description;
-    private String requestType;
-    private String requestStatus;
+//    private String requestStatus;
 }

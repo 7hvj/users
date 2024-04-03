@@ -14,7 +14,6 @@ import lombok.Setter;
 @Table(name = "WithdrawalRequest")
 public class WithdrawalRequest {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "withdrawal_request_id")
     private Long withdrawalRequestId;
 
@@ -28,8 +27,8 @@ public class WithdrawalRequest {
     private String withdrawalReason;
     private String iban;
     private String bankName;
-    @Column(name = "request_type")
-    private String requestType;
-    @Column(name = "request_status")
-    private String requestStatus;
+//    step 2
+//    @Column(name = "request_status")
+//    private String requestStatus;
+
 }

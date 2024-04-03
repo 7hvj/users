@@ -14,7 +14,6 @@ import lombok.Setter;
 @Table(name = "RepairRequest")
 public class RepairRequest {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "repair_request_id")
     private Long repairRequestId;
 
@@ -23,8 +22,6 @@ public class RepairRequest {
     private String room;
     private String repair;
     private String description;
-    @Column(name = "request_type")
-    private String requestType;
-    @Column(name = "request_status")
-    private String requestStatus;
+
+
 }

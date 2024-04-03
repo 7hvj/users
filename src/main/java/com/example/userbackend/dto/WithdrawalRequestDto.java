@@ -23,6 +23,5 @@ public class WithdrawalRequestDto {
     private String withdrawalReason;
     private String iban;
     private String bankName;
-    private String requestType;
-    private String requestStatus;
+//    private String requestStatus;
 }

@@ -19,7 +19,5 @@ public class RenewRequestDto {
     private String paymentReceipt;
     private String term;
     private String academicYear;
-    private String requestType;
-    private String requestStatus;
 
 }

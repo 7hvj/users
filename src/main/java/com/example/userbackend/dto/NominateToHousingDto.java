@@ -21,6 +21,4 @@ public class NominateToHousingDto {
     private String neighborhood;
     private String graduationCity;
     private String phone;
-    private String requestType;
-    private String requestStatus;
 }

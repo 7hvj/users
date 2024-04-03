@@ -21,6 +21,4 @@ public class NewRequestDto {
     private String city;
     private String neighborhood;
     private String phone;
-    private String requestType;
-    private String requestStatus;
 }

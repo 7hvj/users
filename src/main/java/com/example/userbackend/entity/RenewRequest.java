@@ -14,7 +14,6 @@ import lombok.Setter;
 @Table(name = "RenewRequest")
 public class RenewRequest {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "renew_request_id")
     private Long renewRequestId;
 
@@ -25,9 +24,5 @@ public class RenewRequest {
     private String paymentReceipt;
     private String term;
     private String academicYear;
-    @Column(name = "request_type")
-    private String requestType;
-    @Column(name = "request_status")
-    private String requestStatus;
 
 }

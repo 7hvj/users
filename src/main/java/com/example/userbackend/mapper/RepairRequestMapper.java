@@ -11,9 +11,7 @@ public class RepairRequestMapper {
                 repairRequest.getBuilding(),
                 repairRequest.getRoom(),
                 repairRequest.getRepair(),
-                repairRequest.getDescription(),
-                repairRequest.getRequestType(),
-                repairRequest.getRequestStatus()
+                repairRequest.getDescription()
         );
     }
 
@@ -24,9 +22,7 @@ public class RepairRequestMapper {
                 repairRequestDto.getBuilding(),
                 repairRequestDto.getRoom(),
                 repairRequestDto.getRepair(),
-                repairRequestDto.getDescription(),
-                null,
-                null
+                repairRequestDto.getDescription()
         );
 
     }

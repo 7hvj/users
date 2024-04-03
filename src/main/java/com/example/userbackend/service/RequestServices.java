@@ -1,10 +1,12 @@
 package com.example.userbackend.service;
 
 import com.example.userbackend.dto.*;
+import com.example.userbackend.entity.Requests;
 import com.example.userbackend.entity.WithdrawalRequest;
 
 
 import java.util.List;
+import java.util.Map;
 
 public interface RequestServices {
 //    New Request functions:
@@ -29,7 +31,7 @@ public interface RequestServices {
     RepairRequestDto ApprovedRepairRequest(Long repairRequestId);
     RepairRequestDto RejectedRepairRequest(Long repairRequestId);
     void deleteRepairRequest(Long repairRequestId);
-    List<RepairRequestDto> getAllRepairRequest();
+    List<Map<String, Object >> getAllRepairRequest();
 
 //    withdrawal Request functions:
     WithdrawalRequestDto addWithdrawalRequest(WithdrawalRequestDto withdrawalRequestDto);
@@ -46,4 +48,7 @@ public interface RequestServices {
     NominateToHousingDto RejectedNominateToHousing(Long nominateToHousingId);
     void deleteNominateToHousing(Long nominateToHousingId);
     List<NominateToHousingDto> getAllNominateToHousing();
+//    Requests
+    List<Requests> getAllRequests();
+
 }

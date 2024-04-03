@@ -36,7 +36,7 @@ public class WithdrawalRequestController {
         return ResponseEntity.ok(withdrawalRequestDto);
 
     }
-    //    update withdrawalRequest into rejected
+//    //    update withdrawalRequest into rejected
     @PutMapping("/RejectedRequest/{id}")
     public ResponseEntity<WithdrawalRequestDto>rejectedWithdrawalRequest(@PathVariable("id") Long withdrawalId){
         WithdrawalRequestDto withdrawalRequestDto=requestServices.RejectedWithdrawalRequestById(withdrawalId);

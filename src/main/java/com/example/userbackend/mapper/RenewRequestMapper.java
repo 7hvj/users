@@ -13,9 +13,7 @@ public class RenewRequestMapper {
                 renewRequest.getRenewDate(),
                 renewRequest.getPaymentReceipt(),
                 renewRequest.getTerm(),
-                renewRequest.getAcademicYear(),
-                renewRequest.getRequestType(),
-                renewRequest.getRequestStatus()
+                renewRequest.getAcademicYear()
         );
     }
     public static RenewRequest mapToRenewRequest(RenewRequestDto renewRequestDto){
@@ -26,8 +24,6 @@ public class RenewRequestMapper {
                 renewRequestDto.getCollege(),
                 renewRequestDto.getRenewDate(),
                 renewRequestDto.getPaymentReceipt(),
-                null,
-                null,
                 null,
                 null
         );
